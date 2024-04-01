@@ -1,0 +1,8 @@
+# Ignore .env file
+.env
+
+# Ignore credentials.js
+credentials.js
+
+# Ignore tokens.js
+tokens.js
