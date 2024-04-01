@@ -6,3 +6,7 @@ credentials.js
 
 # Ignore tokens.js
 tokens.js
+
+.vercel
+
+node_modules
