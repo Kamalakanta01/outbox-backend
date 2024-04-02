@@ -10,19 +10,29 @@ const port = 3000;
 // Replace with your downloaded credentials
 const credentials = require("./credentials.json");
 const { Run } = require("./gemini");
+const { Token } = require("./tokenModel");
 
 // Function to save tokens to a file
-function saveTokensToFile(tokens) {
-  fs.writeFileSync("tokens.json", JSON.stringify(tokens));
+async function saveTokensToFile(tokens) {
+  // fs.writeFileSync("tokens.json", JSON.stringify(tokens));
+  try {
+    // Insert the tokens into the database using the create method
+    await Token.create(tokens);
+    console.log("Tokens saved to MongoDB successfully.");
+  } catch (error) {
+    console.error("Error saving tokens to MongoDB:", error);
+  }
 }
 
 // Function to read tokens from a file
-function readTokensFromFile() {
+async function readTokensFromFile() {
   try {
-    const tokens = JSON.parse(fs.readFileSync("tokens.json"));
+    // Find all documents in the Token collection
+    const tokens = await Token.find({});
+    // console.log(tokens)
     return tokens;
   } catch (error) {
-    console.error("Error reading tokens from file:", error);
+    console.error("Error reading tokens from MongoDB:", error);
     return null;
   }
 }
@@ -31,15 +41,24 @@ function readTokensFromFile() {
 const oAuth2Client = new OAuth2Client(
   credentials.client_id,
   credentials.client_secret,
-  credentials.redirect_uris[1]
+  credentials.redirect_uris[0]
 );
 
 // Read tokens from file on server startup
-const tokensFromFile = readTokensFromFile();
-if (tokensFromFile) {
-  oAuth2Client.setCredentials(tokensFromFile);
-  console.log("Tokens loaded from file:", tokensFromFile);
+async function loadTokens() {
+  const tokensFromFile = await readTokensFromFile();
+
+  if (tokensFromFile && tokensFromFile.length > 0) {
+    // Assuming oAuth2Client is an OAuth2 client instance from Google's OAuth2 library
+    oAuth2Client.setCredentials(tokensFromFile[0]); // Assuming you only expect one set of tokens
+
+    console.log("Tokens loaded from MongoDB:", tokensFromFile);
+  } else {
+    console.log("No tokens found in MongoDB.");
+  }
 }
+
+loadTokens();
 
 // Login route - redirects to Google login consent screen
 // Login route - redirects to Google login consent screen

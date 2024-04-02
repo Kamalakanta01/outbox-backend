@@ -7,7 +7,7 @@ const tokenSchema = new mongoose.Schema({
   scope: String,
   token_type: String,
   id_token: String,
-  expiry_date: Date
+  expiry_date: Number
 });
 
 // Create a model based on the schema
