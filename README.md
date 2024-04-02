@@ -10,7 +10,7 @@
 
   <h2>Introduction</h2>
 
-  <p>This project aims to automate email processing and replies using Google's Generative AI and Gmail APIs. By leveraging AI, the system can understand the context of received emails and assign automatic labels. It then generates appropriate replies based on the content of the emails.</p>
+  <p>This project aims to automate email processing and replies using Google's Generative AI and Gmail APIs. By leveraging AI, the system can understand the context of received emails and assign automatic labels. It then generates appropriate replies based on the content of the emails one at a time.</p>
 
   <h2>Prerequisites</h2>
 
